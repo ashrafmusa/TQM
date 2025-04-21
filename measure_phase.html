@@ -1,0 +1,108 @@
+{% extends '_base.html' %}
+
+{% block title %}Measure Phase - LSS Toolkit{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4"><span class="badge bg-warning text-dark me-2">M</span>Measure Phase Tools</h2>
+    <p class="lead mb-4">Plan your data collection, gather baseline data, and assess your measurement system.</p>
+
+    <div class="row">
+        <!-- Data Collection Plan -->
+        <div class="col-lg-6 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-warning-subtle">
+                     <h3 class="card-title mb-0 h5"><i class="bi bi-list-check me-2"></i>Data Collection Plan</h3>
+                </div>
+                <div class="card-body d-flex flex-column"> <!-- Flex column for button alignment -->
+                    <p><small>Outline what data needs to be collected, how, and by whom.</small></p>
+                     <form id="dataCollectionPlanForm" class="flex-grow-1"> <!-- Flex grow for form -->
+                        <div class="mb-3">
+                            <label for="dcp_metric" class="form-label">Metric/Data Point:</label>
+                            <input type="text" id="dcp_metric" name="metric" class="form-control form-control-sm">
+                        </div>
+                         <div class="mb-3">
+                            <label for="dcp_operational_definition" class="form-label">Operational Definition:</label>
+                            <textarea id="dcp_operational_definition" name="operational_definition" rows="2" class="form-control form-control-sm" placeholder="Precise description of what is being measured and how."></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="dcp_source" class="form-label">Data Source:</label>
+                            <input type="text" id="dcp_source" name="source" class="form-control form-control-sm" placeholder="e.g., LIS, Instrument X Log, Manual Sheet">
+                        </div>
+                        <div class="mb-3">
+                            <label for="dcp_collection_method" class="form-label">Collection Method:</label>
+                            <input type="text" id="dcp_collection_method" name="collection_method" class="form-control form-control-sm" placeholder="e.g., CSV Export, Manual Transcription, Photo">
+                        </div>
+                         <div class="mb-3">
+                            <label for="dcp_frequency" class="form-label">Frequency/Sample Size:</label>
+                            <input type="text" id="dcp_frequency" name="frequency" class="form-control form-control-sm" placeholder="e.g., Daily, Per Batch, 5 samples/hour">
+                        </div>
+                        <!-- Removed actions from here -->
+                    </form>
+                     <div class="form-actions mt-auto text-end border-top pt-3"> <!-- Use mt-auto to push buttons down -->
+                        <button type="button" class="btn btn-success btn-sm me-2" data-form-type="dataCollectionPlan" data-action="save" title="Save data to browser storage"><i class="bi bi-save me-1"></i> Save</button>
+                        <button type="button" class="btn btn-secondary btn-sm me-2" data-form-type="dataCollectionPlan" data-action="load" title="Load saved data from browser storage"><i class="bi bi-folder2-open me-1"></i> Load</button>
+                        <button type="button" class="btn btn-info btn-sm" data-form-type="dataCollectionPlan" data-action="export" title="Export current form data as PDF"><i class="bi bi-file-earmark-pdf me-1"></i> Export</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Input / Import -->
+        <div class="col-lg-6 mb-4">
+            <div class="card h-100 shadow-sm">
+                 <div class="card-header bg-warning-subtle">
+                    <h3 class="card-title mb-0 h5"><i class="bi bi-database-add me-2"></i>Data Input / Import</h3>
+                 </div>
+                <div class="card-body d-flex flex-column">
+                    <p>Input data manually or import directly from files.</p>
+                    <a href="{{ url_for('import_data') }}" class="btn btn-warning mb-2 w-100"><i class="bi bi-upload me-1"></i> Import Data (CSV/Excel)</a>
+                    <hr>
+                    <h6 class="mt-3 text-muted">Manual Data Entry (Examples)</h6>
+                    <p><small>Structured entry forms (e.g., for scanned logs) could be added here. These would save data in a structured format (like JSON or a database) for later analysis.</small></p>
+                    <!-- Placeholder for links to manual entry forms if developed -->
+                    <button class="btn btn-outline-secondary btn-sm w-100 mb-2" disabled>(Example: QC Log Entry Form)</button>
+                    <button class="btn btn-outline-secondary btn-sm w-100" disabled>(Example: Manual Timing Log Form)</button>
+                     <div class="mt-auto"></div> <!-- Pushes content up -->
+                </div>
+            </div>
+        </div>
+
+         <!-- Measurement System Analysis (MSA) -->
+         <div class="col-lg-6 mb-4">
+            <div class="card h-100 shadow-sm">
+                 <div class="card-header bg-warning-subtle">
+                     <h3 class="card-title mb-0 h5"><i class="bi bi-check2-circle me-2"></i>Measurement System Analysis (MSA)</h3>
+                 </div>
+                <div class="card-body d-flex flex-column"> <!-- Flex column -->
+                    <p><small>Consider the reliability of your measurement system. Document your assessment or plans.</small></p>
+                    <form id="msaNotesForm" class="flex-grow-1"> <!-- Flex grow -->
+                         <div class="mb-3">
+                            <label for="msa_status" class="form-label">MSA Status/Consideration:</label>
+                            <select id="msa_status" name="msa_status" class="form-select form-select-sm">
+                                <option value="">Select...</option>
+                                <option value="not_needed">Not Needed / Not Applicable</option>
+                                <option value="planned">Planned (Gage R&R, Attribute Agreement, etc.)</option>
+                                <option value="completed">Completed (Results documented offline)</option>
+                                <option value="assumed_ok">Assumed Acceptable (Note justification)</option>
+                                <option value="review_needed">Requires Review / Potential Issue</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="msa_notes" class="form-label">MSA Notes (Method, Results Summary, Issues, Justification):</label>
+                            <textarea id="msa_notes" name="msa_notes" rows="4" class="form-control form-control-sm"></textarea>
+                        </div>
+                         <!-- Actions moved outside form -->
+                    </form>
+                    <div class="form-actions mt-auto text-end border-top pt-3"> <!-- mt-auto -->
+                        <button type="button" class="btn btn-success btn-sm me-2" data-form-type="msaNotes" data-action="save" title="Save data to browser storage"><i class="bi bi-save me-1"></i> Save</button>
+                        <button type="button" class="btn btn-secondary btn-sm me-2" data-form-type="msaNotes" data-action="load" title="Load saved data from browser storage"><i class="bi bi-folder2-open me-1"></i> Load</button>
+                        <button type="button" class="btn btn-info btn-sm" data-form-type="msaNotes" data-action="export" title="Export current form data as PDF"><i class="bi bi-file-earmark-pdf me-1"></i> Export</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div> <!-- End row -->
+</div> <!-- End container -->
+{% endblock %}

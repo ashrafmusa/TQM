@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Project Charter PDF</title>
+    <style>
+        @page {
+            size: A4 landscape;
+            margin: 1.5cm;
+             @frame footer {
+                -pdf-frame-content: footer-content;
+                bottom: 0.5cm; left: 1.5cm; right: 1.5cm; height: 1cm;
+            }
+        }
+        body { font-family: sans-serif; font-size: 9pt; }
+        h1 { font-size: 16pt; text-align: center; margin-bottom: 8mm; }
+        table.header-info { width: 100%; margin-bottom: 8mm; font-size: 8pt; border-collapse: collapse; border: 1px solid #aaa; }
+        table.header-info td { padding: 1.5mm 2mm; border: 1px solid #ccc; }
+
+        table.charter-layout {
+            width: 100%;
+            border-collapse: separate; /* Use separate for spacing */
+            border-spacing: 2mm; /* Simulate gap */
+            table-layout: fixed; /* Important for column widths */
+        }
+        td.charter-col {
+             vertical-align: top;
+             padding: 0; /* No padding on cell itself */
+             /* Widths need to add up, consider border-spacing */
+        }
+        td.charter-col-1 { width: 28%; }
+        td.charter-col-2 { width: 28%; }
+        td.charter-col-3 { width: 40%; } /* Adjust if needed */
+
+        .charter-block {
+            border: 0.5pt solid black;
+            margin-bottom: 3mm;
+            background-color: #ffffff;
+            page-break-inside: avoid;
+            overflow: hidden; /* Helps contain content */
+        }
+        .charter-block-label {
+            font-size: 7pt; font-weight: bold; color: white;
+            background-color: #555; /* Default */
+            padding: 1mm 1.5mm; display: block;
+        }
+        .charter-block-content {
+            font-size: 8pt; padding: 1.5mm;
+            white-space: pre-wrap; /* Preserve line breaks */
+            word-wrap: break-word;
+            /* Add min-height to ensure content area has space */
+            min-height: 15mm;
+        }
+        /* Colors - Apply to label backgrounds */
+        .cb-green .charter-block-label { background-color: #28a745; }
+        .cb-purple .charter-block-label { background-color: #6f42c1; }
+        .cb-orange .charter-block-label { background-color: #fd7e14; }
+        .cb-pink .charter-block-label { background-color: #d63384; }
+        .cb-blue .charter-block-label { background-color: #0d6efd; }
+        .cb-yellow .charter-block-label { background-color: #ffc107; color: #333; }
+    </style>
+</head>
+<body>
+    <!-- Footer Content -->
+    <div id="footer-content" style="text-align: center; font-size: 8pt; color: #888;">
+        Page <pdf:pagenumber /> of <pdf:pagecount />
+    </div>
+
+    <!-- Main Content -->
+    <h1>PROJECT CHARTER</h1>
+     <table class="header-info">
+         <tr>
+             <td><strong>Process/Function Name:</strong> {{ data.title | default('(Not specified)') | e }}</td>
+             <td><strong>Date:</strong> {{ data.creation_date | default('(Not specified)') | e }}</td>
+         </tr>
+         <tr>
+             <td colspan="2"><strong>Scope:</strong> {{ data.scope | default('(Not specified)') | e }}</td>
+         </tr>
+     </table>
+
+    <table class="charter-layout">
+        <tr>
+            <!-- Column 1 -->
+            <td class="charter-col charter-col-1">
+                 <div class="charter-block cb-green">
+                    <div class="charter-block-label">Problem Statement</div>
+                    <div class="charter-block-content">{{ data.problemStatement | default('') | e }}</div> {# Removed | nl2br #}
+                 </div>
+                  <div class="charter-block cb-green">
+                    <div class="charter-block-label">Business Case</div>
+                    <div class="charter-block-content">{{ data.businessCase | default('') | e }}</div> {# Removed | nl2br #}
+                 </div>
+                 <div class="charter-block cb-purple">
+                    <div class="charter-block-label">Project Goals (SMART)</div>
+                    <div class="charter-block-content">{{ data.goalStatement | default('') | e }}</div> {# Removed | nl2br #}
+                 </div>
+                 <div class="charter-block cb-purple">
+                    <div class="charter-block-label">List of Deliverables</div>
+                    <div class="charter-block-content">{{ data.deliverables | default('') | e }}</div> {# Removed | nl2br #}
+                 </div>
+            </td>
+            <!-- Column 2 -->
+            <td class="charter-col charter-col-2">
+                 <div class="charter-block cb-orange">
+                    <div class="charter-block-label">Project Manager</div>
+                    <div class="charter-block-content">{{ data.projectManager | default('') | e }}</div> {# Removed | nl2br #}
+                 </div>
+                 <div class="charter-block cb-orange">
+                    <div class="charter-block-label">Key Stakeholders / Team</div>
+                    <div class="charter-block-content">{{ data.teamMembers | default('') | e }}</div> {# Removed | nl2br #}
+                 </div>
+                 <div class="charter-block cb-pink">
+                    <div class="charter-block-label">Project Assumptions</div>
+                    <div class="charter-block-content">{{ data.assumptions | default('') | e }}</div> {# Removed | nl2br #}
+                 </div>
+                 <div class="charter-block cb-pink">
+                    <div class="charter-block-label">Constraints and Risks</div>
+                    <div class="charter-block-content">{{ data.constraintsRisks | default('') | e }}</div> {# Removed | nl2br #}
+                 </div>
+                 <div class="charter-block cb-pink">
+                    <div class="charter-block-label">Cost Estimates</div>
+                    <div class="charter-block-content">{{ data.costEstimates | default('') | e }}</div> {# Removed | nl2br #}
+                 </div>
+                 <div class="charter-block cb-pink">
+                    <div class="charter-block-label">Schedule Estimates</div>
+                    <div class="charter-block-content">{{ data.timeline | default('') | e }}</div> {# Removed | nl2br #}
+                 </div>
+            </td>
+            <!-- Column 3 -->
+            <td class="charter-col charter-col-3">
+                 <div class="charter-block cb-blue">
+                    <div class="charter-block-label">Scope Statement (In/Out)</div>
+                    <div class="charter-block-content">{{ data.scope | default('') | e }}</div> {# Removed | nl2br #}
+                 </div>
+                 <div class="charter-block cb-blue">
+                    <div class="charter-block-label">Strategies</div>
+                    <div class="charter-block-content">{{ data.strategies | default('') | e }}</div> {# Removed | nl2br #}
+                 </div>
+                 <div class="charter-block cb-yellow">
+                    <div class="charter-block-label">Success Criteria</div>
+                    <div class="charter-block-content">{{ data.successCriteria | default('') | e }}</div> {# Removed | nl2br #}
+                 </div>
+                 <div class="charter-block cb-yellow">
+                    <div class="charter-block-label">Meetings</div>
+                    <div class="charter-block-content">{{ data.meetings | default('') | e }}</div> {# Removed | nl2br #}
+                 </div>
+            </td>
+        </tr>
+    </table>
+
+</body>
+</html>

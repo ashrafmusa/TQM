@@ -1,0 +1,48 @@
+{% extends '_base.html' %}
+
+{% block title %}Dashboard - Lean Six Sigma Toolkit{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col">
+            <div class="card shadow-sm border-success">
+                 <div class="card-header bg-success text-white">
+                     <h2 class="card-title mb-0"><i class="bi bi-speedometer2 me-2"></i>Welcome to Your Lean Six Sigma Toolkit</h2>
+                 </div>
+                <div class="card-body">
+                    <p class="card-text lead">This application provides tools to support your process improvement projects following the DMAIC methodology.</p>
+                     <hr>
+                    <p><strong>Getting Started:</strong> Follow the DMAIC phases using the navigation above.</p>
+                    <ol>
+                        <li><strong><a href="{{ url_for('define_phase') }}">Define:</a></strong> Start a new project with a Project Charter and SIPOC diagram.</li>
+                        <li><strong><a href="{{ url_for('measure_phase') }}">Measure:</a></strong> Plan data collection, <a href="{{ url_for('import_data') }}">import data (CSV/Excel)</a>, and consider Measurement System Analysis.</li>
+                        <li><strong><a href="{{ url_for('analyze_phase') }}">Analyze:</a></strong> Calculate statistics, view control charts, and assess process capability using imported data. Explore root causes with tools like the Fishbone diagram.</li>
+                        <li><strong><a href="{{ url_for('improve_phase') }}">Improve:</a></strong> Explore potential improvements using predictive tools (if available) or brainstorming templates like FMEA.</li>
+                        <li><strong><a href="{{ url_for('control_phase') }}">Control:</a></strong> Document your control strategy with a Control Plan and plan for ongoing monitoring.</li>
+                    </ol>
+                    <p>Use the <a href="{{ url_for('graphical_forms') }}"><strong>Graphical Forms</strong></a> tool for process maps and other diagrams, and the <a href="{{ url_for('capability_calculator_page') }}"><strong>Capability Calc</strong></a> for quick standalone calculations.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <!-- Optional: Add quick links or summary info here if needed -->
+    <div class="row text-center">
+         <div class="col-md-3 mb-3">
+             <a href="{{ url_for('import_data') }}" class="btn btn-lg btn-warning w-100"><i class="bi bi-upload me-1"></i> Import Data</a>
+         </div>
+         <div class="col-md-3 mb-3">
+             <a href="{{ url_for('analyze_phase') }}" class="btn btn-lg btn-info w-100"><i class="bi bi-graph-up me-1"></i> Analyze Data</a>
+         </div>
+          <div class="col-md-3 mb-3">
+             <a href="{{ url_for('define_phase') }}" class="btn btn-lg btn-primary w-100"><i class="bi bi-flag me-1"></i> Define Phase</a>
+         </div>
+          <div class="col-md-3 mb-3">
+              <!-- Added button for standalone calculator -->
+             <a href="{{ url_for('capability_calculator_page') }}" class="btn btn-lg btn-success w-100"><i class="bi bi-calculator me-1"></i> Capability Calc</a>
+         </div>
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,156 @@
+{% extends '_base.html' %}
+
+{% block title %}Define Phase - LSS Toolkit{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4"><span class="badge bg-primary me-2">D</span>Define Phase Tools</h2>
+    <p class="lead mb-4">Start your Lean Six Sigma project by defining the problem, goals, scope, and stakeholders.</p>
+
+    <!-- PROJECT CHARTER -->
+    <div class="card form-section mb-4 shadow-sm">
+        <div class="card-header bg-primary text-white">
+           <h3 class="mb-0 h5"><i class="bi bi-file-earmark-text me-2"></i>Project Charter</h3>
+        </div>
+        <div class="card-body">
+            <form id="projectCharterForm">
+                 <div class="mb-3">
+                    <label for="pc_title" class="form-label">Project Title:</label>
+                    <input type="text" id="pc_title" name="title" class="form-control form-control-sm" required>
+                    <div class="form-text">A clear, concise name for the project.</div>
+                 </div>
+                 <div class="mb-3">
+                    <label for="pc_businessCase" class="form-label">Business Case:</label>
+                    <textarea id="pc_businessCase" name="businessCase" rows="3" class="form-control form-control-sm" placeholder="Why is this project important for the business? What are the expected benefits (cost, quality, time)?"></textarea>
+                 </div>
+                 <div class="mb-3">
+                    <label for="pc_problemStatement" class="form-label">Problem Statement:</label>
+                    <textarea id="pc_problemStatement" name="problemStatement" rows="3" class="form-control form-control-sm" placeholder="Describe the problem clearly and concisely. Include magnitude (how big?), location (where?), and time frame (since when?). Avoid suggesting causes or solutions here."></textarea>
+                 </div>
+                 <div class="mb-3">
+                    <label for="pc_goalStatement" class="form-label">Goal Statement (SMART):</label>
+                    <textarea id="pc_goalStatement" name="goalStatement" rows="3" class="form-control form-control-sm" placeholder="Specific, Measurable, Achievable, Relevant, Time-bound goal. E.g., Reduce average sample processing time in Dept X from 45 minutes to 30 minutes by end of Q3 20XX."></textarea>
+                 </div>
+                 <div class="mb-3">
+                     <label for="pc_scope" class="form-label">Project Scope (In/Out):</label>
+                     <textarea id="pc_scope" name="scope" rows="3" class="form-control form-control-sm" placeholder="Define the boundaries clearly. In-Scope: What specific processes, departments, products, or timeframes are included? Out-of-Scope: What is explicitly excluded?"></textarea>
+                 </div>
+                 <div class="mb-3">
+                    <label for="pc_team" class="form-label">Team Members:</label>
+                    <input type="text" id="pc_team" name="teamMembers" class="form-control form-control-sm" placeholder="List key team members and roles (Sponsor, Champion, Lead, Members...)">
+                 </div>
+                  <div class="mb-3">
+                    <label for="pc_timeline" class="form-label">Estimated Timeline:</label>
+                    <input type="text" id="pc_timeline" name="timeline" class="form-control form-control-sm" placeholder="Key milestones and target completion dates for Define, Measure, Analyze, Improve, Control phases.">
+                 </div>
+
+                 <div class="form-actions text-end border-top pt-3 mt-3">
+                    <button type="button" class="btn btn-success btn-sm me-2" data-form-type="projectCharter" data-action="save" title="Save data to browser storage"><i class="bi bi-save me-1"></i> Save</button>
+                    <button type="button" class="btn btn-secondary btn-sm me-2" data-form-type="projectCharter" data-action="load" title="Load saved data from browser storage"><i class="bi bi-folder2-open me-1"></i> Load</button>
+                    <button type="button" class="btn btn-info btn-sm" data-form-type="projectCharter" data-action="export" title="Export current form data as PDF"><i class="bi bi-file-earmark-pdf me-1"></i> Export PDF</button>
+                 </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- SIPOC DIAGRAM - New Column Layout -->
+    <div class="card form-section mb-4 shadow-sm">
+        <div class="card-header bg-primary-subtle">
+            <h3 class="mb-0 h5"><i class="bi bi-diagram-2 me-2"></i>SIPOC Diagram</h3>
+        </div>
+        <div class="card-body">
+            <form id="sipocForm">
+                <!-- Header Section -->
+                <div class="row mb-3 gx-3 align-items-end">
+                    <div class="col-md-5">
+                        <label for="sipoc_process_name" class="form-label form-label-sm">Process or Function Name:</label>
+                        <input type="text" id="sipoc_process_name" name="sipoc_process_name" class="form-control form-control-sm">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="sipoc_scope" class="form-label form-label-sm">Scope:</label>
+                        <input type="text" id="sipoc_scope" name="sipoc_scope" class="form-control form-control-sm">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="sipoc_date" class="form-label form-label-sm">Date:</label>
+                        <input type="date" id="sipoc_date" name="sipoc_date" class="form-control form-control-sm">
+                    </div>
+                </div>
+                <hr class="my-3">
+
+                <!-- SIPOC Columns -->
+                <p class="card-text text-center"><small>Identify the high-level process map. List items one per line in the text areas below.</small></p>
+                <div class="row sipoc-container g-0">
+                    <!-- Suppliers Column -->
+                    <div class="col sipoc-col">
+                        <div class="sipoc-header">Suppliers</div>
+                        <div class="sipoc-content">
+                            <textarea name="suppliers_list" class="form-control sipoc-textarea" rows="10" placeholder="Who provides inputs?
+e.g.
+- Vendor A
+- Internal Dept X
+- Patient"></textarea>
+                        </div>
+                    </div>
+                    <!-- Inputs Column -->
+                    <div class="col sipoc-col">
+                        <div class="sipoc-header">Inputs</div>
+                        <div class="sipoc-content">
+                             <textarea name="inputs_list" class="form-control sipoc-textarea" rows="10" placeholder="What is needed?
+e.g.
+- Reagents
+- Samples
+- Request Form
+- Procedure Doc"></textarea>
+                        </div>
+                    </div>
+                    <!-- Processes Column -->
+                    <div class="col sipoc-col">
+                        <div class="sipoc-header">Processes</div>
+                        <div class="sipoc-content">
+                             <textarea name="processes_list" class="form-control sipoc-textarea" rows="10" placeholder="What are the major steps? (5-7)
+e.g.
+- Receive Sample
+- Prep Sample
+- Analyze
+- Review Results
+- Report Results"></textarea>
+                        </div>
+                    </div>
+                    <!-- Outputs Column -->
+                    <div class="col sipoc-col">
+                        <div class="sipoc-header">Outputs</div>
+                        <div class="sipoc-content">
+                             <textarea name="outputs_list" class="form-control sipoc-textarea" rows="10" placeholder="What is produced?
+e.g.
+- Test Result
+- Report
+- QC Data
+- Billing Info"></textarea>
+                        </div>
+                    </div>
+                    <!-- Customers Column -->
+                    <div class="col sipoc-col">
+                        <div class="sipoc-header">Customers</div>
+                        <div class="sipoc-content">
+                             <textarea name="customers_list" class="form-control sipoc-textarea" rows="10" placeholder="Who receives outputs?
+e.g.
+- Physician
+- Patient
+- Billing Dept
+- Quality Dept"></textarea>
+                        </div>
+                    </div>
+                </div><!-- /sipoc-container -->
+
+                 <div class="form-actions text-end mt-3 border-top pt-3">
+                    <button type="button" class="btn btn-success btn-sm me-2" data-form-type="sipoc" data-action="save" title="Save data to browser storage"><i class="bi bi-save me-1"></i> Save</button>
+                    <button type="button" class="btn btn-secondary btn-sm me-2" data-form-type="sipoc" data-action="load" title="Load saved data from browser storage"><i class="bi bi-folder2-open me-1"></i> Load</button>
+                    <button type="button" class="btn btn-info btn-sm" data-form-type="sipoc" data-action="export" title="Export current form data as PDF"><i class="bi bi-file-earmark-pdf me-1"></i> Export PDF</button>
+                 </div>
+            </form>
+        </div>
+    </div>
+    <!-- END SIPOC DIAGRAM -->
+
+</div>
+{% endblock %}

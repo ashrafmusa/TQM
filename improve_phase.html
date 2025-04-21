@@ -1,0 +1,133 @@
+{% extends '_base.html' %}
+
+{% block title %}Improve Phase - LSS Toolkit{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4"><span class="badge bg-danger me-2">I</span>Improve Phase Tools</h2>
+    <p class="lead mb-4">Develop, test, and implement solutions to address the root causes identified.</p>
+
+    <div class="row">
+        <!-- Predictive Analysis Section -->
+        <div class="col-lg-6 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-danger-subtle">
+                     <h3 class="card-title mb-0 h5"><i class="bi bi-magic me-2"></i>Predictive Analysis (Sample Model)</h3>
+                 </div>
+                <div class="card-body d-flex flex-column"> <!-- Flex column -->
+                    {% if ml_model_available %}
+                        <p><small class="text-muted">Uses a sample pre-trained model (`defect_reduction_model.pkl`). Replace with your own model for meaningful results.</small></p>
+                        <form id="predictionForm" class="flex-grow-1"> <!-- Flex grow -->
+                            <div class="mb-3">
+                                <label for="pred_feature1" class="form-label">Feature 1:</label>
+                                <input type="number" step="any" id="pred_feature1" name="feature1" class="form-control form-control-sm" required value="10">
+                            </div>
+                            <div class="mb-3">
+                                <label for="pred_feature2" class="form-label">Feature 2:</label>
+                                <input type="number" step="any" id="pred_feature2" name="feature2" class="form-control form-control-sm" required value="5">
+                            </div>
+                            <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-activity me-1"></i> Predict Result</button>
+                        </form>
+                         <div id="predictionApiResult" class="api-result mt-auto" style="display: none;"> <!-- mt-auto pushes result down -->
+                            <!-- Prediction result/error displayed here -->
+                        </div>
+                    {% else %}
+                        <div class="alert alert-warning h-100 d-flex align-items-center justify-content-center"> <!-- Fill height and center -->
+                            <div>
+                                <i class="bi bi-exclamation-triangle me-1"></i>Machine Learning model (`defect_reduction_model.pkl`) not loaded. Prediction feature is unavailable.
+                                <br><small>Run `python train_model.py` first.</small>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Solution Brainstorming / Selection Placeholder -->
+        <div class="col-lg-6 mb-4">
+            <div class="card h-100 shadow-sm">
+                 <div class="card-header bg-danger-subtle">
+                    <h3 class="card-title mb-0 h5"><i class="bi bi-lightbulb me-2"></i>Solution Development</h3>
+                 </div>
+                <div class="card-body d-flex flex-column"> <!-- Flex column -->
+                    <p><small>Brainstorm, evaluate, and select potential solutions.</small></p>
+                     <form id="solutionIdeasForm" class="flex-grow-1"> <!-- Flex grow -->
+                        <div class="mb-3">
+                            <label for="si_ideas" class="form-label">Potential Solutions / Ideas:</label>
+                            <textarea id="si_ideas" name="solution_ideas" rows="5" class="form-control" placeholder="List potential solutions identified..."></textarea>
+                        </div>
+                         <!-- Add fields for evaluation criteria (effort, impact, cost) later if desired -->
+                    </form>
+                     <div class="form-actions mt-auto text-end border-top pt-3"> <!-- mt-auto -->
+                        <button type="button" class="btn btn-success btn-sm me-2" data-form-type="solutionIdeas" data-action="save" title="Save data to browser storage"><i class="bi bi-save me-1"></i> Save</button>
+                        <button type="button" class="btn btn-secondary btn-sm me-2" data-form-type="solutionIdeas" data-action="load" title="Load saved data from browser storage"><i class="bi bi-folder2-open me-1"></i> Load</button>
+                         <button type="button" class="btn btn-info btn-sm" data-form-type="solutionIdeas" data-action="export" title="Export current form data as PDF"><i class="bi bi-file-earmark-pdf me-1"></i> Export</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FMEA Placeholder -->
+        <div class="col-12 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-danger-subtle">
+                    <h3 class="mb-0 h5"><i class="bi bi-shield-exclamation me-2"></i>Failure Modes and Effects Analysis (FMEA)</h3>
+                     <small class="text-muted d-block">Assess risks associated with the proposed solution or process change.</small>
+                </div>
+                <div class="card-body">
+                   <form id="fmeaForm">
+                       <div class="table-responsive">
+                           <table class="table table-bordered table-sm small">
+                               <thead class="table-light">
+                                   <tr>
+                                       <th style="width: 10%;">Process Step</th>
+                                       <th style="width: 15%;">Potential Failure Mode</th>
+                                       <th style="width: 15%;">Potential Effect(s)</th>
+                                       <th style="width: 5%;">Sev<br>(1-10)</th>
+                                       <th style="width: 15%;">Potential Cause(s)</th>
+                                       <th style="width: 5%;">Occ<br>(1-10)</th>
+                                       <th style="width: 10%;">Current Control(s)</th>
+                                       <th style="width: 5%;">Det<br>(1-10)</th>
+                                       <th style="width: 5%;">RPN</th>
+                                       <th style="width: 15%;">Recommended Action(s)</th>
+                                   </tr>
+                               </thead>
+                               <tbody id="fmeaTableBody">
+                                   <!-- Example Row (implement dynamic add row later) -->
+                                   <tr>
+                                        <td><textarea name="fmea_step_1" class="form-control form-control-sm" rows="2"></textarea></td>
+                                        <td><textarea name="fmea_mode_1" class="form-control form-control-sm" rows="2"></textarea></td>
+                                        <td><textarea name="fmea_effect_1" class="form-control form-control-sm" rows="2"></textarea></td>
+                                        <td><input type="number" name="fmea_sev_1" min="1" max="10" class="form-control form-control-sm fmea-calc text-center"></td>
+                                        <td><textarea name="fmea_cause_1" class="form-control form-control-sm" rows="2"></textarea></td>
+                                        <td><input type="number" name="fmea_occ_1" min="1" max="10" class="form-control form-control-sm fmea-calc text-center"></td>
+                                        <td><textarea name="fmea_control_1" class="form-control form-control-sm" rows="2"></textarea></td>
+                                        <td><input type="number" name="fmea_det_1" min="1" max="10" class="form-control form-control-sm fmea-calc text-center"></td>
+                                        <td><input type="number" name="fmea_rpn_1" class="form-control form-control-sm fmea-rpn text-center" readonly></td>
+                                        <td><textarea name="fmea_action_1" class="form-control form-control-sm" rows="2"></textarea></td>
+                                   </tr>
+                                    <!-- Add more rows here or via JS -->
+                               </tbody>
+                           </table>
+                       </div>
+                        <button type="button" class="btn btn-outline-primary btn-sm mt-2" disabled title="Functionality not implemented yet"><i class="bi bi-plus-circle me-1"></i> Add Row</button>
+                         <div class="form-actions mt-3 text-end border-top pt-3">
+                            <button type="button" class="btn btn-success btn-sm me-2" data-form-type="fmea" data-action="save" title="Save data to browser storage"><i class="bi bi-save me-1"></i> Save</button>
+                            <button type="button" class="btn btn-secondary btn-sm me-2" data-form-type="fmea" data-action="load" title="Load saved data from browser storage"><i class="bi bi-folder2-open me-1"></i> Load</button>
+                            <button type="button" class="btn btn-info btn-sm" data-form-type="fmea" data-action="export" title="Export current form data as PDF"><i class="bi bi-file-earmark-pdf me-1"></i> Export</button>
+                        </div>
+                   </form>
+                </div>
+            </div>
+        </div>
+
+    </div> <!-- End row -->
+
+</div> <!-- End container -->
+{% endblock %}
+
+{% block scripts_extra %}
+<script>
+// RPN Calculation logic is handled by initializeFmeaRpnCalc in main.js
+</script>
+{% endblock %}

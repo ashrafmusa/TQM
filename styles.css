@@ -1,0 +1,60 @@
+/* SIPOC Diagram Styling */
+.sipoc-container {
+    display: flex; /* Use flexbox for columns */
+    border: 1px solid #ccc; /* Outer border */
+    border-radius: 5px;
+    overflow: hidden; /* Ensure rounded corners clip content */
+    background-color: #fff;
+}
+
+.sipoc-col {
+    flex: 1; /* Make columns equal width */
+    display: flex;
+    flex-direction: column; /* Stack header and content vertically */
+    border-right: 1px solid #ccc; /* Vertical line */
+    min-width: 150px; /* Minimum width for columns */
+}
+
+.sipoc-col:last-child {
+    border-right: none; /* No line on the last column */
+}
+
+.sipoc-header {
+    background-color: #003366; /* Dark blue */
+    color: white;
+    padding: 0.5rem;
+    text-align: center;
+    font-weight: bold;
+    border-bottom: 1px solid #ccc;
+    font-size: 0.9rem;
+}
+
+.sipoc-content {
+    padding: 0; /* Remove padding, textarea fills it */
+    flex-grow: 1; /* Allow content area to grow */
+    min-height: 200px; /* Minimum height for content area */
+}
+
+.sipoc-textarea {
+    width: 100%;
+    height: 100%; /* Fill the content area */
+    border: none; /* Remove textarea border */
+    padding: 0.5rem;
+    resize: none; /* Disable resizing */
+    font-size: 0.85rem;
+    line-height: 1.5;
+    box-shadow: none !important; /* Override bootstrap focus shadow */
+    border-radius: 0; /* No rounded corners inside */
+}
+
+.sipoc-textarea:focus {
+     outline: none; /* Remove focus outline */
+     border: none;
+     box-shadow: none !important;
+}
+
+/* Smaller labels for SIPOC header inputs */
+.form-label-sm {
+    font-size: 0.8rem;
+    margin-bottom: 0.1rem;
+}

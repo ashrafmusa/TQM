@@ -1,0 +1,139 @@
+{% extends '_base.html' %}
+
+{% block title %}Capability Calculator - LSS Toolkit{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-xl-7">
+            <h2 class="mb-4 text-center"><i class="bi bi-calculator me-2"></i>Process Capability Calculator (Cp, Cpk)</h2>
+
+            <div class="card shadow-sm mb-4 border-success">
+                 <div class="card-header bg-success-subtle">
+                     <i class="bi bi-input-cursor-text me-1"></i> Input Parameters
+                 </div>
+                <div class="card-body">
+                    <p><small>Enter your process statistics and specification limits to calculate potential capability (Cp) and actual capability (Cpk). Use the short-term (within-subgroup) standard deviation estimate for these calculations.</small></p>
+                     <form id="capabilityFormStandalone">
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label for="cap_mean_standalone" class="form-label"><span class="text-danger">*</span>Process Mean (Average):</label>
+                                <input type="number" step="any" id="cap_mean_standalone" name="mean" class="form-control form-control-sm" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="cap_std_dev_standalone" class="form-label"><span class="text-danger">*</span>Process Standard Deviation:</label>
+                                <input type="number" step="any" id="cap_std_dev_standalone" name="std_dev" class="form-control form-control-sm" required min="0">
+                                <div class="form-text">Use within-subgroup estimate (e.g., from control chart Rbar/d2 or Sp).</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="cap_lsl_standalone" class="form-label">Lower Specification Limit (LSL):</label>
+                                <input type="number" step="any" id="cap_lsl_standalone" name="lsl" class="form-control form-control-sm" placeholder="Optional">
+                                 <div class="form-text">Leave blank if no lower limit.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="cap_usl_standalone" class="form-label">Upper Specification Limit (USL):</label>
+                                <input type="number" step="any" id="cap_usl_standalone" name="usl" class="form-control form-control-sm" placeholder="Optional">
+                                <div class="form-text">Leave blank if no upper limit.</div>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary btn-sm"><i class="bi bi-check2-circle me-1"></i> Calculate Capability</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div id="capabilityResultsStandalone" class="card shadow-sm" style="display: none;">
+                <div class="card-header bg-light">
+                    <h3 class="mb-0 h5"><i class="bi bi-graph-up-arrow me-1"></i>Calculation Results</h3>
+                </div>
+                <div class="card-body">
+                    <div id="capabilityErrorStandalone" class="api-result alert alert-danger mb-3" style="display: none;"></div>
+                     <div id="capabilitySuccessStandalone">
+                         <dl class="row">
+                            <dt class="col-sm-4">Potential Capability (Cp):</dt>
+                            <dd class="col-sm-8"><span id="result-cp-standalone" class="fw-bold">...</span> <br><small class="text-muted">(Requires both LSL and USL)</small></dd>
+
+                            <dt class="col-sm-4">Actual Capability (Cpk):</dt>
+                            <dd class="col-sm-8"><span id="result-cpk-standalone" class="fw-bold">...</span> <br><small class="text-muted">(Considers process centering)</small></dd>
+
+                            <dt class="col-sm-4">Upper Capability (Cpu):</dt>
+                            <dd class="col-sm-8"><span id="result-cpu-standalone" class="fw-bold">...</span> <br><small class="text-muted">(Distance to USL)</small></dd>
+
+                            <dt class="col-sm-4">Lower Capability (Cpl):</dt>
+                            <dd class="col-sm-8"><span id="result-cpl-standalone" class="fw-bold">...</span> <br><small class="text-muted">(Distance to LSL)</small></dd>
+                        </dl>
+                         <hr>
+                        <h5>Interpretation Guide (General Rules of Thumb):</h5>
+                        <ul class="small text-muted">
+                            <li><strong>Cpk < 1.0:</strong> Process is likely producing defects relative to specifications.</li>
+                            <li><strong>1.0 <= Cpk < 1.33:</strong> Process is marginally capable. Requires close monitoring and potential improvement.</li>
+                            <li><strong>Cpk >= 1.33:</strong> Process is generally considered capable for many industries.</li>
+                            <li><strong>Cpk >= 1.67:</strong> Process is considered highly capable (approaching Six Sigma performance if centered).</li>
+                            <li>Compare <strong>Cp</strong> and <strong>Cpk</strong>: If Cp is significantly higher than Cpk, the process mean is likely off-center relative to the specification limits.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- End row -->
+</div> <!-- End container -->
+{% endblock %}
+
+{% block scripts_extra %}
+<script>
+// Add specific JS handler for this standalone form
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('capabilityFormStandalone');
+    if (form) {
+        form.addEventListener('submit', handleStandaloneCapabilitySubmit);
+        console.log("Standalone capability form listener attached.");
+    } else {
+        console.warn("Standalone capability form not found.");
+    }
+});
+
+async function handleStandaloneCapabilitySubmit(event) {
+    event.preventDefault();
+    const form = event.target;
+    const resultsDiv = document.getElementById('capabilityResultsStandalone');
+    const errorDiv = document.getElementById('capabilityErrorStandalone');
+    const successDiv = document.getElementById('capabilitySuccessStandalone');
+
+    if (!resultsDiv || !errorDiv || !successDiv) { console.error("Standalone capability display elements missing."); return; }
+
+    resultsDiv.style.display = 'none'; errorDiv.style.display = 'none'; successDiv.style.display = 'none'; errorDiv.textContent = '';
+    resultsDiv.querySelectorAll('span[id^="result-"]').forEach(span => span.textContent = '...');
+
+    const formData = {
+        mean: form.elements['mean']?.value, std_dev: form.elements['std_dev']?.value,
+        lsl: form.elements['lsl']?.value, usl: form.elements['usl']?.value
+    };
+
+     if (formData.mean === '' || formData.std_dev === '') { resultsDiv.style.display = 'block'; errorDiv.textContent = 'Error: Mean and Standard Deviation required.'; errorDiv.style.display = 'block'; return; }
+     if (isNaN(parseFloat(formData.std_dev)) || parseFloat(formData.std_dev) < 0) { resultsDiv.style.display = 'block'; errorDiv.textContent = 'Error: Standard Deviation must be non-negative.'; errorDiv.style.display = 'block'; return; }
+
+    // Check if the global calculateCapability function exists from main.js
+    if (typeof calculateCapability === 'function') {
+        showToast("Calculating...", "info"); // Use global toast
+        const result = await calculateCapability(formData); // Call function from main.js
+
+        resultsDiv.style.display = 'block';
+        if (result.error) {
+            errorDiv.textContent = `Error: ${result.error}`; errorDiv.style.display = 'block'; successDiv.style.display = 'none';
+        } else {
+            errorDiv.style.display = 'none'; successDiv.style.display = 'block';
+            const formatInfinity = (val) => (val === Infinity || val === -Infinity) ? 'Infinite' : (val !== null ? val : 'N/A');
+            document.getElementById('result-cp-standalone').textContent = formatInfinity(result.cp);
+            document.getElementById('result-cpk-standalone').textContent = formatInfinity(result.cpk);
+            document.getElementById('result-cpu-standalone').textContent = formatInfinity(result.cpu);
+            document.getElementById('result-cpl-standalone').textContent = formatInfinity(result.cpl);
+        }
+    } else {
+         console.error("Global calculateCapability function not found.");
+         resultsDiv.style.display = 'block'; errorDiv.textContent = 'Error: Script error.'; errorDiv.style.display = 'block';
+         if(typeof showToast === 'function') showToast("Application script error.", "danger"); else alert("Application script error.");
+    }
+}
+</script>
+{% endblock %}

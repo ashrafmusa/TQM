@@ -1,0 +1,25 @@
+{% extends '_base.html' %}
+
+{% block title %}Server Error (500){% endblock %}
+
+{% block content %}
+<div class="container text-center mt-5">
+     <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm border-danger">
+                 <div class="card-body p-5">
+                    <i class="bi bi-emoji-dizzy display-1 text-danger"></i>
+                    <h1 class="display-4 mt-3">500</h1>
+                    <h2>Oops! Internal Server Error</h2>
+                    <p class="lead text-muted">Sorry, something went wrong on our end.</p>
+                    {% if error_message %}
+                        <p class="text-danger small">Details: {{ error_message }}</p>
+                    {% endif %}
+                    <p><small>Please try again later. Check the application console logs running in your terminal for more technical details if the problem persists.</small></p>
+                    <a href="{{ url_for('index') }}" class="btn btn-primary mt-3"><i class="bi bi-house-door me-1"></i> Go Back to Home</a>
+                 </div>
+             </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

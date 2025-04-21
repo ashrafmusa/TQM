@@ -1,0 +1,104 @@
+{% extends '_base.html' %}
+
+{% block title %}Control Phase - LSS Toolkit{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4"><span class="badge bg-secondary me-2">C</span>Control Phase Tools</h2>
+    <p class="lead mb-4">Implement controls to sustain the gains and monitor the improved process.</p>
+
+    <div class="row">
+        <!-- Control Plan -->
+        <div class="col-12 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-secondary-subtle">
+                    <h3 class="mb-0 h5"><i class="bi bi-sliders me-2"></i>Control Plan</h3>
+                    <small class="text-muted d-block">Document how the process improvements will be sustained.</small>
+                </div>
+                <div class="card-body">
+                    <form id="controlPlanForm">
+                         <div class="table-responsive">
+                           <table class="table table-bordered table-sm small">
+                               <thead class="table-light">
+                                   <tr>
+                                       <th style="width: 15%;">Process Step / Input</th>
+                                       <th style="width: 15%;">Critical Characteristic (CTQ/CTP)</th>
+                                       <th style="width: 15%;">Specification / Limit</th>
+                                       <th style="width: 15%;">Measurement Method</th>
+                                       <th style="width: 10%;">Sample Size</th>
+                                       <th style="width: 10%;">Frequency</th>
+                                       <th style="width: 10%;">Control Method / Who</th>
+                                       <th style="width: 10%;">Reaction Plan</th>
+                                   </tr>
+                               </thead>
+                               <tbody id="controlPlanTableBody">
+                                   <!-- Example Row (implement dynamic add row later) -->
+                                   <tr>
+                                        <td><textarea name="cp_step_1" class="form-control form-control-sm" rows="2"></textarea></td>
+                                        <td><textarea name="cp_ctq_1" class="form-control form-control-sm" rows="2"></textarea></td>
+                                        <td><input type="text" name="cp_spec_1" class="form-control form-control-sm"></td>
+                                        <td><input type="text" name="cp_measure_method_1" class="form-control form-control-sm"></td>
+                                        <td><input type="text" name="cp_sample_size_1" class="form-control form-control-sm"></td>
+                                        <td><input type="text" name="cp_frequency_1" class="form-control form-control-sm"></td>
+                                        <td><input type="text" name="cp_control_method_1" class="form-control form-control-sm"></td>
+                                        <td><textarea name="cp_reaction_1" class="form-control form-control-sm" rows="2"></textarea></td>
+                                    </tr>
+                                    <!-- Add more rows here or via JS -->
+                               </tbody>
+                           </table>
+                       </div>
+                        <button type="button" class="btn btn-outline-primary btn-sm mt-2" disabled title="Functionality not implemented yet"><i class="bi bi-plus-circle me-1"></i> Add Row</button>
+                         <div class="form-actions mt-3 text-end border-top pt-3">
+                            <button type="button" class="btn btn-success btn-sm me-2" data-form-type="controlPlan" data-action="save" title="Save data to browser storage"><i class="bi bi-save me-1"></i> Save</button>
+                            <button type="button" class="btn btn-secondary btn-sm me-2" data-form-type="controlPlan" data-action="load" title="Load saved data from browser storage"><i class="bi bi-folder2-open me-1"></i> Load</button>
+                            <button type="button" class="btn btn-info btn-sm" data-form-type="controlPlan" data-action="export" title="Export current form data as PDF"><i class="bi bi-file-earmark-pdf me-1"></i> Export</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Process Monitoring Placeholder -->
+        <div class="col-lg-6 mb-4">
+            <div class="card h-100 shadow-sm">
+                 <div class="card-header bg-secondary-subtle">
+                    <h3 class="card-title mb-0 h5"><i class="bi bi-binoculars me-2"></i>Process Monitoring</h3>
+                </div>
+                <div class="card-body d-flex flex-column">
+                    <p>Set up ongoing monitoring using control charts or dashboards based on your Control Plan.</p>
+                    <p class="text-muted">You can view control charts for your datasets in the <a href="{{ url_for('analyze_phase') }}">Analyze phase</a>.</p>
+                    <p class="mt-auto"><em class="small">Future enhancements could include setting up monitoring schedules or linking directly to live control charts.</em></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Documentation & Handover Placeholder -->
+        <div class="col-lg-6 mb-4">
+            <div class="card h-100 shadow-sm">
+                 <div class="card-header bg-secondary-subtle">
+                    <h3 class="card-title mb-0 h5"><i class="bi bi-journal-check me-2"></i>Documentation & Handover</h3>
+                </div>
+                <div class="card-body d-flex flex-column">
+                    <p>Finalize project documentation and hand over the improved process.</p>
+                     <form id="finalDocsForm" class="flex-grow-1">
+                         <div class="mb-3">
+                            <label for="fd_summary" class="form-label">Project Summary & Key Findings:</label>
+                            <textarea id="fd_summary" name="project_summary" rows="4" class="form-control" placeholder="Summarize the project, main results, and achieved goals."></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="fd_next_steps" class="form-label">Next Steps / Recommendations / Handover Plan:</label>
+                            <textarea id="fd_next_steps" name="next_steps" rows="3" class="form-control" placeholder="Outline remaining actions, future opportunities, or details for process owner handover."></textarea>
+                        </div>
+                    </form>
+                     <div class="form-actions mt-auto text-end border-top pt-3">
+                        <button type="button" class="btn btn-success btn-sm me-2" data-form-type="finalDocs" data-action="save" title="Save data to browser storage"><i class="bi bi-save me-1"></i> Save</button>
+                        <button type="button" class="btn btn-secondary btn-sm me-2" data-form-type="finalDocs" data-action="load" title="Load saved data from browser storage"><i class="bi bi-folder2-open me-1"></i> Load</button>
+                        <button type="button" class="btn btn-info btn-sm" data-form-type="finalDocs" data-action="export" title="Export current form data as PDF"><i class="bi bi-file-earmark-pdf me-1"></i> Export</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div> <!-- End row -->
+</div> <!-- End container -->
+{% endblock %}

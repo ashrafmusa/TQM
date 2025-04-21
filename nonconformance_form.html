@@ -1,0 +1,40 @@
+{% extends '_base.html' %}
+
+{% block title %}Nonconformance Report - LSS Toolkit{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4"><i class="bi bi-exclamation-octagon-fill text-danger me-2"></i>Nonconformance Report (NCF)</h2>
+    <p class="lead mb-4">Document nonconformities identified during processes or audits.</p>
+
+    <div class="card form-section shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0 h5">Nonconformance Details</h3>
+        </div>
+        <div class="card-body">
+            <form id="nonconformanceForm" action="/export/nonconformance/pdf" method="POST" class="needs-validation" novalidate>
+                <div class="mb-3">
+                    <label for="nc_fault_category" class="form-label">Fault / Error Category <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="nc_fault_category" name="nc_fault_category" placeholder="e.g., QC Failure" required>
+                </div>
+                <div class="mb-3">
+                    <label for="nc_initiator_name" class="form-label">Initiator Name <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="nc_initiator_name" name="nc_initiator_name" placeholder="Enter initiator's name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="nc_details" class="form-label">Details <span class="text-danger">*</span></label>
+                    <textarea class="form-control" id="nc_details" name="nc_details" rows="4" placeholder="Describe the nonconformance..." required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="nc_fault_occurred_date" class="form-label">Date Fault Occurred <span class="text-danger">*</span></label>
+                    <input type="date" class="form-control" id="nc_fault_occurred_date" name="nc_fault_occurred_date" required>
+                </div>
+
+                <div class="form-actions text-end">
+                    <button type="submit" class="btn btn-info">Export to PDF</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

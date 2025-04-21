@@ -1,0 +1,71 @@
+{% extends '_base.html' %}
+
+{% block title %}Graphical Forms - LSS Toolkit{% endblock %}
+
+{% block head_extra %}
+    <!-- Fabric.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
+    <style>
+        /* Styles moved to styles.css */
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4"><i class="bi bi-pencil-square me-2"></i>Graphical Forms Tool</h2>
+    <p class="lead mb-4">Use this tool to draw process maps, flowcharts, or other diagrams.</p>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-light">
+           <i class="bi bi-tools me-1"></i> Controls
+        </div>
+        <div class="card-body controls canvas-controls text-center">
+             <!-- Row 1: Add Shapes & Template -->
+            <div class="mb-2">
+                <div class="btn-group btn-group-sm me-2" role="group" aria-label="Add Shapes">
+                     <button id="addRectButton" class="btn btn-outline-secondary" title="Add Rectangle"><i class="bi bi-square me-1"></i> Rectangle</button>
+                     <button id="addCircleButton" class="btn btn-outline-secondary" title="Add Circle"><i class="bi bi-circle me-1"></i> Circle</button>
+                     <button id="addTextButton" class="btn btn-outline-secondary" title="Add Textbox"><i class="bi bi-fonts me-1"></i> Text</button>
+                </div>
+                 <button id="loadSipocButton" class="btn btn-outline-primary btn-sm" title="Load a basic SIPOC diagram template"><i class="bi bi-diagram-2 me-1"></i> Load SIPOC Template</button>
+            </div>
+
+             <!-- Row 2: Save, Load, Export -->
+             <div class="mb-2">
+                 <div class="btn-group btn-group-sm me-2" role="group" aria-label="Canvas Actions">
+                     <button id="saveCanvasButton" class="btn btn-success" title="Save current canvas state to browser storage"><i class="bi bi-save me-1"></i> Save Canvas</button>
+                     <button id="loadCanvasButton" class="btn btn-secondary" title="Load previously saved canvas state"><i class="bi bi-folder2-open me-1"></i> Load Canvas</button>
+                     <button id="exportCanvasButton" class="btn btn-info" title="Export canvas as a PNG image"><i class="bi bi-image me-1"></i> Export as PNG</button>
+                 </div>
+             </div>
+
+              <!-- Row 3: Zoom & Clear -->
+              <div>
+                  <div class="btn-group btn-group-sm" role="group" aria-label="Zoom and Clear">
+                     <button id="zoomInButton" class="btn btn-outline-dark" title="Zoom In"><i class="bi bi-zoom-in"></i></button>
+                     <button id="zoomOutButton" class="btn btn-outline-dark" title="Zoom Out"><i class="bi bi-zoom-out"></i></button>
+                     <button id="clearCanvasButton" class="btn btn-danger" title="Clear entire canvas (cannot be undone!)"><i class="bi bi-trash me-1"></i> Clear</button>
+                 </div>
+              </div>
+        </div>
+    </div>
+
+     <div class="card shadow-sm">
+         <div class="card-header bg-light">
+            <i class="bi bi-palette me-1"></i> Canvas Area
+         </div>
+         <div class="card-body text-center">
+             <div class="canvas-wrapper">
+                 <!-- Set canvas initial size here - adjust as needed -->
+                 <canvas id="drawingCanvas" width="850" height="600"></canvas>
+             </div>
+             <div class="form-text mt-2">Select objects to move, resize, rotate, or delete (using Delete key). Double-click text to edit.</div>
+         </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts_extra %}
+    <!-- Initialization logic is in main.js -->
+    <!-- Key listener logic is attached by main.js -->
+{% endblock %}
